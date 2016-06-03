@@ -1,6 +1,6 @@
 <?php
 
-namespace Collector\Collector;
+namespace Collector;
 
 use ArrayIterator;
 use Generator;
