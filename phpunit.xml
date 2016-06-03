@@ -1,0 +1,7 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="GeneratorCollection">
+            <file>CollectorTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
