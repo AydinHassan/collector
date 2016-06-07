@@ -27,6 +27,35 @@ class Collector implements IteratorAggregate
     }
 
     /**
+     * @param static|callable|Iterator|array $items
+     * @return Collector
+     */
+    public static function collect($items)
+    {
+        //self
+        if ($items instanceof self) {
+            return static::fromIterator($items->getIterator());
+        }
+
+        //generators
+        if (is_callable($items)) {
+            return static::fromCallable($items);
+        }
+
+        //arrays
+        if (is_array($items)) {
+            return static::fromArray($items);
+        }
+
+        //iterators & generators
+        if ($items instanceof Iterator) {
+            return static::fromIterator($items);
+        }
+
+        throw new InvalidArgumentException(sprintf('$items is invalid, should be array, iterator, generator'));
+    }
+
+    /**
      * @param Iterator $iterator
      * @return static
      */
@@ -42,15 +71,6 @@ class Collector implements IteratorAggregate
     public function fromArray(array $items)
     {
         return static::fromIterator(new ArrayIterator($items));
-    }
-
-    /**
-     * @param Generator $generator
-     * @return static
-     */
-    public static function fromGenerator(Generator $generator)
-    {
-        return static::fromIterator($generator);
     }
 
     /**
@@ -70,7 +90,7 @@ class Collector implements IteratorAggregate
             );
         }
 
-        return static::fromGenerator($generator);
+        return static::fromIterator($generator);
     }
 
     /**
