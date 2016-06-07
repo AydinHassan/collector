@@ -28,16 +28,16 @@ class Collector implements IteratorAggregate
 
     /**
      * @param Iterator $iterator
-     * @return self
+     * @return static
      */
-    public static function fromIterator(Iterator $iterator) : self
+    public static function fromIterator(Iterator $iterator)
     {
         return new static($iterator);
     }
 
     /**
      * @param array $items
-     * @return self
+     * @return static
      */
     public function fromArray(array $items)
     {
@@ -46,18 +46,18 @@ class Collector implements IteratorAggregate
 
     /**
      * @param Generator $generator
-     * @return self
+     * @return static
      */
-    public static function fromGenerator(Generator $generator) : self
+    public static function fromGenerator(Generator $generator)
     {
         return static::fromIterator($generator);
     }
 
     /**
      * @param callable $callable
-     * @return self
+     * @return static
      */
-    public static function fromCallable(callable $callable) : self
+    public static function fromCallable(callable $callable)
     {
         $generator = $callable();
 
@@ -75,11 +75,11 @@ class Collector implements IteratorAggregate
 
     /**
      * @param callable $callback
-     * @return self
+     * @return static
      */
-    public function map(callable $callback) : self
+    public function map(callable $callback)
     {
-        return static::fromCallable(function () use ($callback) : Generator {
+        return static::fromCallable(function () use ($callback) {
             foreach ($this->iterator as $key => $item) {
                 yield $key => $callback($item, $key);
             }
@@ -88,11 +88,11 @@ class Collector implements IteratorAggregate
 
     /**
      * @param callable $callback
-     * @return self
+     * @return static
      */
-    public function flatMap(callable $callback) : self
+    public function flatMap(callable $callback)
     {
-        return static::fromCallable(function () use ($callback) : Generator {
+        return static::fromCallable(function () use ($callback) {
             foreach ($this->iterator as $key => $item) {
                 $items = $callback($item);
                 if (!is_array($items)) {
@@ -108,9 +108,9 @@ class Collector implements IteratorAggregate
 
     /**
      * @param callable $callback
-     * @return self
+     * @return static
      */
-    public function filter(callable $callback = null) : self
+    public function filter(callable $callback = null)
     {
         if (null === $callback) {
             $callback = function ($item) {
@@ -118,7 +118,7 @@ class Collector implements IteratorAggregate
             };
         }
 
-        return static::fromCallable(function () use ($callback) : Generator {
+        return static::fromCallable(function () use ($callback) {
             foreach ($this->iterator as $key => $item) {
                 if ($callback($item, $key)) {
                     yield $key => $item;
@@ -138,11 +138,11 @@ class Collector implements IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return static
      */
-    public function collapse() : self
+    public function collapse()
     {
-        return static::fromCallable(function () : Generator {
+        return static::fromCallable(function () {
             foreach ($this->iterator as $key => $item) {
                 if (!is_array($item)) {
                     continue;
@@ -156,11 +156,11 @@ class Collector implements IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return static
      */
-    public function flip() : self
+    public function flip()
     {
-        return static::fromCallable(function () : Generator {
+        return static::fromCallable(function () {
             foreach ($this->iterator as $key => $item) {
                 yield $item => $key;
             }
@@ -169,11 +169,11 @@ class Collector implements IteratorAggregate
 
     /**
      * @param callable $callback
-     * @return self
+     * @return static
      */
-    public function keyBy(callable $callback) : self
+    public function keyBy(callable $callback)
     {
-        return static::fromCallable(function () use ($callback) : Generator {
+        return static::fromCallable(function () use ($callback) {
              foreach ($this->iterator as $key => $item) {
                  yield $callback($item, $key) => $item;
              }
@@ -181,9 +181,9 @@ class Collector implements IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return static
      */
-    public function values() : self
+    public function values()
     {
         return static::fromCallable(function () {
             foreach ($this->iterator as $item) {
@@ -193,9 +193,9 @@ class Collector implements IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return static
      */
-    public function keys() : self
+    public function keys()
     {
         return static::fromCallable(function () {
             foreach ($this->iterator as $key => $item) {
@@ -205,8 +205,8 @@ class Collector implements IteratorAggregate
     }
 
     /**
-     * @param self[] ...$zips
-     * @return self
+     * @param static[] ...$zips
+     * @return static
      */
     public function zip(self ...$zips)
     {
@@ -237,7 +237,7 @@ class Collector implements IteratorAggregate
     /**
      * @return Iterator
      */
-    public function getIterator() : Iterator
+    public function getIterator()
     {
         return $this->iterator;
     }
