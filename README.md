@@ -348,3 +348,26 @@ array(2) {
   string(6) "Africa"
 }
 ```
+
+# Unit tests
+
+```shell
+git clone git@github.com:AydinHassan/collector.git
+cd collector
+composer install
+composer test
+```
+
+# Benchmarks
+
+There are some bench marks included showing performance and memory consumption metrics of the collection against native
+operations.
+
+```shell
+git clone git@github.com:AydinHassan/collector.git
+cd collector
+composer install
+./vendor/bin/phpbench run benchmarks/LoopOneHundredThousandItems.php --report=default
+./vendor/bin/phpbench run benchmarks/MapOneMillionItems.php --report=default
+./vendor/bin/phpbench run benchmarks/FilterOneMillionItems.php --report=default
+```
