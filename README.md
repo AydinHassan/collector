@@ -7,6 +7,46 @@ Built using generators to preserve memory when dealing with large data sets.
 This was put together in about 2 hours - unit tests ripped straight from Laravel - I'd like to implement as much of the
 Laravel Collection class as possible in due time.
 
+## Create a collection
+
+Use the static helper method `collect` to create the collection, valid arguments are any objects implementing
+`\Iterator` including generators, any callable which can resolve to a generator or an array.
+
+```php
+
+//iterator
+$collection = Collector::collect(new ArrayIterator([1, 2, 3]);
+
+//callable generator
+$collection = Collector::collect(function () {
+    yield 1;
+    yield 2;
+    yield 3;
+});
+
+//array
+$collection = Collector::collect([1, 2, 3]);
+```
+
+You can also use the more explicit static constructors if you wish:
+
+```php
+
+//iterator
+$collection = Collector::fromIterator(new ArrayIterator([1, 2, 3]);
+
+//callable generator
+$collection = Collector::fromCallable(function () {
+    yield 1;
+    yield 2;
+    yield 3;
+});
+
+//array
+$collection = Collector::fromArray([1, 2, 3]);
+```
+
+# Operations
 
 ## Map
 
