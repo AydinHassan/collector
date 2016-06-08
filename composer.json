@@ -3,7 +3,8 @@
     "description": "A collection library inspired by Laravel Collections, built using generators to preserve memory",
     "keywords": ["collection", "generator", "iterator", "map", "collections", "array"],
     "require-dev": {
-        "phpunit/phpunit": "^5.4"
+        "phpunit/phpunit": "^5.4",
+        "phpbench/phpbench": "@dev"
     },
     "license": "MIT",
     "authors": [
