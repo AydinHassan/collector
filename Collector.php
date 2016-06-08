@@ -68,7 +68,7 @@ class Collector implements IteratorAggregate
      * @param array $items
      * @return static
      */
-    public function fromArray(array $items)
+    public static function fromArray(array $items)
     {
         return static::fromIterator(new ArrayIterator($items));
     }
